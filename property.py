@@ -3,6 +3,7 @@
 
 
 class Getter(object):
+
     def __init__(self, value):
         self._value = value
 
@@ -11,8 +12,8 @@ class Getter(object):
         return self._value
 
 
-
 class Setter(object):
+
     def __init__(self, value):
         self._value = value % 5
 

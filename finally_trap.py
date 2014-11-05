@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-#coding=utf-8
+# coding=utf-8
+
 
 def trap1():
     while True:
@@ -10,10 +11,11 @@ def trap1():
         finally:
             print 'do finally'
             break                       # 会丢弃 Indexerror
-            #return                      # 同样会丢弃
+            # return                      # 同样会丢弃
 
 
 trap1()
+
 
 def trap2():
     try:

@@ -3,13 +3,13 @@
 
 
 class TaskList(object):
-    def __init__(self, lst=[]): # defaut value always be same object(same id)
+
+    def __init__(self, lst=[]):  # defaut value always be same object(same id)
         self._lst = lst
 
     def append(self, item):
         """docstring for append"""
         self._lst.append(item)
-
 
     def print_tasks(self):
         """docstring for print_tasks"""

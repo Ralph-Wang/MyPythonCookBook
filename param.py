@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-def foo(param): # pass the reference
+
+def foo(param):  # pass the reference
     print id(param)
-
-
 
 
 # immortal
@@ -16,4 +15,3 @@ foo(a)
 b = [1, 2, 3]
 print id(b)
 foo(b)
-

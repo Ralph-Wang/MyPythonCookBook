@@ -37,8 +37,8 @@ class Fruit(object):
     def info(self):
         """和实例相关的方法"""
         return '{area:0=2}-{category:0=2}-{batch:0=2}'.format(area=self.area,
-                                                  category=self.category,
-                                                  batch=self.batch)
+                                                              category=self.category,
+                                                              batch=self.batch)
 
     __repr__ = info
 

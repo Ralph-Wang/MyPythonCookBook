@@ -41,8 +41,8 @@ class Man(object):
     def create(name, type_name):
         man = Man(name)
         man.__class__ = type('',
-                (man.type(type_name), Man),
-                {})
+                             (man.type(type_name), Man),
+                             {})
         return man
 
 

@@ -3,6 +3,7 @@
 
 from collections import defaultdict
 
+
 class Broker(object):
     route = defaultdict(list)
 
@@ -21,9 +22,9 @@ class Broker(object):
         funcs.append(func)
 
 
-
 def hello_to(who):
     print 'greeting, {0}'.format(who)
+
 
 def ask(who):
     print 'is that {0}?'.format(who)
@@ -37,4 +38,3 @@ Broker.pub('meet', 'World')
 print '-' * 20
 
 Broker.pub('meet', 'Ralph')
-
