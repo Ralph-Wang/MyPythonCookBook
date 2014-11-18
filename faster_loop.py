@@ -8,18 +8,22 @@ import timeit
 # 使用局部变量
 
 def g(lst):
-    for i in lst:
+    for i in xrange(len(lst)):
         lst[i] = math.sin(lst[i])
     return lst
 
 def l(lst):
     sin = math.sin
-    for i in lst:
+    for i in xrange(len(lst)):
         lst[i] = sin(lst[i])
     return lst
 
+def m(lst):
+    return map(math.sin, lst)
+
 print 'glboal:', timeit.timeit('g(range(100))', 'from __main__ import g;import math')
 print 'local:', timeit.timeit('l(range(100))', 'from __main__ import l;import math')
+print 'map:', timeit.timeit('m(range(100))', 'from __main__ import m;import math')
 # output:
 # glboal: 19.1356389523
 # local: 14.3132870197
