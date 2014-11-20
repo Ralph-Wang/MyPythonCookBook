@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import timeit
-import imported_as
 import sys
+import timeit
 
+import imported_as
 
 print id(timeit)
 print id(imported_as._timeit)

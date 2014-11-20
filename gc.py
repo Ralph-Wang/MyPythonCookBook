@@ -3,6 +3,7 @@
 
 import gc
 
+
 def dump_garbage():
     '''展示回收的垃圾'''
     # 告诉 gc 不要直接删除对象, 而是收集到 gc.garbage

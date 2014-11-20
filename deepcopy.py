@@ -4,7 +4,6 @@
 
 import copy
 
-
 # shallow copy 浅拷贝
 a = {'a': {'b': 1}, 'c': 2}
 print a

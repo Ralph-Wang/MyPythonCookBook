@@ -5,6 +5,7 @@
 import math
 import timeit
 
+
 # 使用局部变量
 
 def g(lst):

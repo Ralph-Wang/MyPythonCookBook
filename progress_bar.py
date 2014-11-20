@@ -10,6 +10,7 @@
 import sys
 import time
 
+
 class PBar(object):
     def __init__(self, title=None, maxval=100, fd=sys.stdout):
         self.maxval = maxval
