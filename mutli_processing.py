@@ -19,8 +19,6 @@ if __name__ == '__main__':
     for i in xrange(10):
         msg = "Hello " + str(i)
         results.append(p.apply_async(foo, (msg,)))
-    p.close()
-    p.join()
     for result in results:
         print result.get()
     print 'Sub-process done.'
