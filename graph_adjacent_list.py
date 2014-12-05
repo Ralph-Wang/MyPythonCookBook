@@ -7,17 +7,18 @@ class Graph(object):
     def __init__(self, verteces):
         self.verteces = verteces
         self.edges = 0
-        self.adjcent = [[] for dummy in xrange(self.get_v_count())]
-        self.edgeTo = [[None for d in xrange(self.get_v_count())]
-                for dummy in xrange(len(self.verteces))]
+        self.adjs = [[] for i in xrange(self.get_v_count())]
+        self.edgesTo = [[None] * self.get_v_count()
+                for i in xrange(self.get_v_count())]
 
     def __repr__(self):
         ret = ''
-        for i, lst in enumerate(self.adjcent):
-            node = str(self.verteces[i]) + ' -> '
-            for adj in lst:
-                node += str(self.verteces[adj]) + ' '
-            ret += node.strip() + '\n'
+        for i, adj in enumerate(self.adjs):
+            ret += str(self.verteces[i]) + ' ->'
+            for a in adj:
+                ret += ' ' + str(self.verteces[a])
+            ret += '\n'
+
         return ret
 
     def get_v_count(self):
@@ -26,66 +27,64 @@ class Graph(object):
     def add_edge(self, v, w):
         v_idx = self.verteces.index(v)
         w_idx = self.verteces.index(w)
-        self.adjcent[v_idx].append(w_idx)
-        self.adjcent[w_idx].append(v_idx)
+        self.adjs[v_idx].append(w_idx)
+        self.adjs[w_idx].append(v_idx)
         self.edges += 1
         return self
 
+    def idx_to_value(self, lst):
+        return map(lambda i: self.verteces[i], lst)
+
     def dfs(self, start=None):
         if start is None:
-            start_idx = 0
+            s = 0
         else:
-            start_idx = self.verteces.index(start)
-        stack = [start_idx]
+            s = self.verteces.index(start)
+        stack = [s]
         visited = []
         while stack:
             v = stack.pop()
             visited.append(v)
-            for adj in self.adjcent[v]:
-                if adj not in stack and adj not in visited:
+            for adj in self.adjs[v]:
+                if adj not in visited and adj not in stack:
                     stack.append(adj)
         return self.idx_to_value(visited)
 
     def bfs(self, start=None):
         if start is None:
-            start_idx = 0
+            s = 0
         else:
-            start_idx = self.verteces.index(start)
-        queue = deque([start_idx])
+            s = self.verteces.index(start)
+        queue = deque([s])
         visited = []
         while queue:
             v = queue.popleft()
             visited.append(v)
-            for adj in self.adjcent[v]:
+            for adj in self.adjs[v]:
                 if adj not in queue and adj not in visited:
                     queue.append(adj)
-                    self.edgeTo[start_idx][adj] = v
+                    self.edgesTo[s][adj] = v
         return self.idx_to_value(visited)
+        pass
 
-    def idx_to_value(self, lst):
-        ret = []
-        for v in lst:
-            ret.append(self.verteces[v])
-        return ret
 
     def path(self, v, w):
         v_idx = self.verteces.index(v)
         w_idx = self.verteces.index(w)
-        if self.edgeTo[v_idx] == [None] * self.get_v_count():
+        if self.edgesTo[v_idx] == [None] * self.get_v_count():
             self.bfs(v)
-        i = w_idx # i 从终点开始回溯路径
-        path = [i]
+        p = [w_idx] # 因为是回溯方式找路径, 所以第一个记录点是终点
+        i = w_idx
         while i != v_idx:
-            i = self.edgeTo[v_idx][i]
-            path.append(i)
-        path.reverse()
-        return self.idx_to_value(path)
+            i = self.edgesTo[v_idx][i]
+            p.append(i)
+        p.reverse()
+        return self.idx_to_value(p)
 
     def topSort(self, v):
+        v_idx = self.verteces.index(v)
         result = []
         visited = []
-
-        v_idx = self.verteces.index(v)
 
         self.topSortHelper(v_idx, visited, result)
 
@@ -93,14 +92,16 @@ class Graph(object):
         return self.idx_to_value(result)
 
     def topSortHelper(self, v, visited, result):
-        visited.append(v)
+        if v not in visited:
+            visited.append(v)
 
-        for adj in self.adjcent[v]:
+        for adj in self.adjs[v]:
             if adj not in visited:
                 self.topSortHelper(adj, visited, result)
 
         if v not in result:
             result.append(v)
+        pass
 
 
 if __name__ == '__main__':
