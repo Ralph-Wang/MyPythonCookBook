@@ -21,6 +21,7 @@ def trap2():
     try:
         return 2
         raise ValueError("ValueError")
+        # raise IndexError("IndexError") # 同样会被丢弃
     except ValueError:
         print "Any Error"
     finally:
