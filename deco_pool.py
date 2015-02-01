@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 
 
-from multiprocessing import Pool, cpu_count
 import time
+from multiprocessing import cpu_count, Pool
+
 
 def timer(func):
     def _wrap(*args):
@@ -11,6 +12,15 @@ def timer(func):
         res = func(*args)
         return res, time.time() - start
     return _wrap
+
+class timer_class(object):
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args):
+        start = time.time()
+        res = self.func(*args)
+        return res, time.time() - start
 
 # @timer # error
 def fib(n):
@@ -22,13 +32,19 @@ def fib(n):
     return calc(n)
 
 
+
 # timer_fib = timer(fib) # error
 
-def timer_fib(n): # work
-    start = time.time()
-    res = fib(n)
-    return res, time.time() - start
 
+# things can be pickled will work in multiprocessing.Pool
+
+timer_fib = timer_class(fib) # work
+# def timer_fib(n): # work
+#     start = time.time()
+#     res = fib(n)
+#     return res, time.time() - start
+
+print type(timer_fib)
 
 
 pool = Pool(processes=cpu_count() * 2)
