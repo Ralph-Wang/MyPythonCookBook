@@ -8,12 +8,10 @@
       getLastOne(n, m) 的函数
 """
 
-def getLast(n, m, left):
-    l = range(1, n+1)
-    while len(l) > left:
-        # 第 (m-1) % len(l) 个人就是数 m 的人
-        # 索引是从 0 开始, 故 m - 1
-        l.remove(l[(m-1)%len(l)])
-    return l
+def getLastOne(n, m):
+    f = 0
+    for i in xrange(1, n+1):
+        f = (f + m) % i
+    return f
 
-print getLast(100, 7, 4)
+print getLastOne(100, 7)
