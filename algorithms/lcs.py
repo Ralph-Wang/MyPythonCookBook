@@ -17,7 +17,7 @@ def lcs(str1, str2):
     array = []
     the_lcs = []
     # 初始化矩阵
-    for dummy_i in xrange(n1+1): # 行 str1 长度+1
+    for dummy_i in xrange(n1+1): # 行 str1 长度+1, 这里不能用列表乘法
         array.append([0] * (n2+1)) # 列 str2 长度+1
 
     for i in xrange(n1+1):
