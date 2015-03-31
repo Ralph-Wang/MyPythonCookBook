@@ -33,12 +33,15 @@ def lcs(str1, str2):
     j = n2
     # 回溯
     while i > 0 and j > 0:
-        if array[i-1][j-1] + 1 == array[i][j]:
+        if array[i-1][j-1] + 1 == array[i][j] and str1[i-1] == str2[j-1]:
             the_lcs.append(str1[i-1]) # 如果按 str2 取, 则 else 为 j -= 1
             i -= 1
             j -= 1
         else:
-            i -= 1
+            if array[i-1][j] < array[i][j-1]:
+                j -= 1
+            else:
+                i -= 1
 
     the_lcs.reverse()
 
@@ -46,8 +49,13 @@ def lcs(str1, str2):
 
 
 def test():
-    str1 = 'GCCCTAGCG'
-    str2 = 'GCGCAATG'
-    print lcs(str1, str2) # GCCAG, 5
+    cases = [
+            ('abcdefg', 'abcdefg', ('abcdefg', 7)),
+            ("GCCCTAGCG", "GCGCAATG", ('GCCTG', 5)),
+            ('abcdefg', 'afebcg', ('abcg', 4)),
+            ]
+    for s1 ,s2, expect in cases:
+        result = lcs(s1, s2)
+        assert result == expect, '%s, %s, %s' %(s1, s2, result)
 
 test()
