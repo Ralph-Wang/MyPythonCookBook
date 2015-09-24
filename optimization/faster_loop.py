@@ -22,12 +22,18 @@ def l(lst):
 def m(lst):
     return map(math.sin, lst)
 
+def c(lst):
+    return [math.sin(x) for x in lst]
+
 print 'glboal:', timeit.timeit('g(range(100))', 'from __main__ import g;import math')
 print 'local:', timeit.timeit('l(range(100))', 'from __main__ import l;import math')
 print 'map:', timeit.timeit('m(range(100))', 'from __main__ import m;import math')
+print 'comprehension:', timeit.timeit('c(range(100))', 'from __main__ import c;import math')
 # output:
-# glboal: 19.1356389523
-# local: 14.3132870197
+# glboal: 21.7703640461
+# local: 17.196354866
+# map: 12.519851923
+# comprehension: 18.7192721367
 
 # 类里面用局部变量, 也有优化哦
 
