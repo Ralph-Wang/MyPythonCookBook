@@ -34,10 +34,11 @@ def lcs(str1, str2):
     # 回溯
     while i > 0 and j > 0:
         if array[i-1][j-1] + 1 == array[i][j] and str1[i-1] == str2[j-1]:
-            the_lcs.append(str1[i-1]) # 如果按 str2 取, 则 else 为 j -= 1
+            the_lcs.append(str1[i-1])
             i -= 1
             j -= 1
         else:
+            # 不属于最长子序列字符, 回溯到累记值更大的一边
             if array[i-1][j] < array[i][j-1]:
                 j -= 1
             else:
