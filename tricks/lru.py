@@ -11,6 +11,47 @@ class DoublyLinkedNode(object):
         self.prev = None
         self.next = None
 
+class CacheMetrics(object):
+    def __init__(self):
+        self._hits = 0
+        self._missed = 0
+        self._access = 0
+
+    @property
+    def access(self):
+        return self._access
+
+    @property
+    def hits(self):
+        return self._hits
+
+    def hit(self):
+        self._hits += 1
+        self._access += 1
+
+    @property
+    def missed(self):
+        return self._missed
+
+    def miss(self):
+        self._missed += 1
+        self._access += 1
+
+    def hit_rate(self):
+        return 1.0 * self._hits / self._access
+
+    def miss_rate(self):
+        return 1.0 * self._missed / self._access
+
+    def dict(self):
+        return {
+                "hits": self.hits,
+                "missed": self.missed,
+                "access": self.access,
+                "hits_rate": self.hit_rate(),
+                "missed_rate": self.miss_rate()
+                }
+
 class LRUCache(object):
 
     """Docstring for LRUCache. """
@@ -19,6 +60,7 @@ class LRUCache(object):
         self._table = {}
         self._capacity = capacity
         self._size = 0
+        self._metrics = CacheMetrics()
         self._init_header()
 
     def size(self):
@@ -57,14 +99,17 @@ class LRUCache(object):
 
     def get(self, key, default=None):
         if key not in self._table:
+            self._metrics.miss()
             return default
 
+        self._metrics.hit()
         node = self._table[key]
         self._header = self._move_to_header(node)
         return node.value
 
     def set(self, key, value):
         if key in self._table:
+            self._metrics.hit()
             node = self._table[key]
             self._header = self._move_to_header(node)
             return
@@ -82,9 +127,18 @@ class LRUCache(object):
         self._table[key] = node
         self._header = node
 
+    def status(self):
+        return self._metrics.dict()
+
 if __name__ == "__main__":
     lru = LRUCache()
     lru.set("1", "2")
+    lru.set("2", "3")
     lru.set("3", "4")
-    for i in lru.iter():
-        print(i.key,i.value)
+    lru.set("4", "5")
+    lru.get("6", 7)
+    lru.get("5", 7)
+    lru.get("4", 7)
+    lru.get("3", 7)
+    lru.get("3", 7)
+    print(lru.status())
